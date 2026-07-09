@@ -28,7 +28,7 @@ const Layout = {
     const authLinks = loggedIn
       ? `<button class="nav-link" id="logout-btn" data-i18n="nav.logout">Logout</button>`
       : `<a class="nav-link" href="login.html" data-i18n="nav.login">Login</a>
-         <a class="nav-link btn btn-primary btn-sm" href="register.html" data-i18n="nav.register">Register</a>`;
+         <a class="btn btn-primary btn-sm" href="register.html" data-i18n="nav.register">Register</a>`;
 
     host.innerHTML = `
       <nav class="navbar">
@@ -53,6 +53,19 @@ const Layout = {
     `;
 
     I18n.translateDom(host);
+
+        // إضافة حدث استماع لأزرار تبديل اللغة
+    host.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const lang = e.target.getAttribute('data-lang');
+        if (lang) {
+          // نفترض أن I18n لديها دالة setLang لتغيير اللغة
+          I18n.setLang(lang); 
+          // تحديث الصفحة لتعكس اللغة الجديدة
+          I18n.translateDom(document.body);
+        }
+      });
+    });
 
     document.getElementById("nav-toggle")?.addEventListener("click", () => {
       document.getElementById("nav-links").classList.toggle("open");
